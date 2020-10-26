@@ -21,33 +21,49 @@ connection.connect(function(err) {
 //Update employee rolls
 
 //Use a switch case to start the function dependant on what the user chose
+switch () {
+    case "View Employees":
+    return viewEmployees();
+    case "View Employees by Department":
+    return viewEmpByDepart();
+    case "View Employees by Role":
+    return viewEmpByRole();
+    case "Add an Employee":
+    return addEmployee();
+    case "Add an Employee by Department":
+    return addEmpByDepart();
+    case "Add an Employee by Role":
+    return addEmpByRole();
+    case "Update Employee Roles":
+    return updateEmpRoles();
+};
 
 //Functions run by the switch case
 //Prompts in functions to get info
 function viewEmployees() {
 
-}
+};
 
 function viewEmpByDepart() {
 
-}
+};
 
 function viewEmpByRole() {
     
-}
+};
 
 function addEmployee() {
     
-}
+};
 
 function addEmpByDepart() {
     
-}
+};
 
 function addEmpByRole() {
     
-}
+};
 
 function updateEmpRoles() {
     
-}
+};
