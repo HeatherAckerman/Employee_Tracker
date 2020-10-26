@@ -1,6 +1,19 @@
 //Require inquirer and sql
+var inquirer = require("inquirer");
+const mysql = require("mysql");
 
 //Create a connection
+const connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: ""
+});
+
+connection.connect(function(err) {
+    if (err) throw err;
+    console.log("connected as id " + connection.threadId + "\n");
+  });
 
 //Create 'home' page where the user can make a choice between
 //View departments, roles, employees
