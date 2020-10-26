@@ -4,10 +4,10 @@ const mysql = require("mysql");
 
 //Create a connection
 const connection = mysql.createConnection({
-    host: "localhost",
+    host: "Connection",
     user: "root",
-    password: "",
-    database: ""
+    password: "root",
+    database: "employeeTracker"
 });
 
 connection.connect(function (err) {
@@ -63,51 +63,51 @@ function loadMainPage() {
 }
 
 //Use a switch case to start the function dependant on what the user chose
-switch () {
-    case "View Employees":
-        return viewEmployees();
-    case "View Employees by Department":
-        return viewEmpByDepart();
-    case "View Employees by Role":
-        return viewEmpByRole();
-    case "Add an Employee":
-        return addEmployee();
-    case "Add an Employee by Department":
-        return addEmpByDepart();
-    case "Add an Employee by Role":
-        return addEmpByRole();
-    case "Update Employee Roles":
-        return updateEmpRoles();
-};
+// switch(choices) {
+//     case "View Employees":
+//         return "viewEmployees";}
+//     case "View Employees by Department":
+//         return viewEmpByDepart();
+//     case "View Employees by Role":
+//         return viewEmpByRole();
+//     case "Add an Employee":
+//         return addEmployee();
+//     case "Add an Employee by Department":
+//         return addEmpByDepart();
+//     case "Add an Employee by Role":
+//         return addEmpByRole();
+//     case "Update Employee Roles":
+//         return updateEmpRoles();
+// };
 
-//Functions run by the switch case
-//Prompts in functions to get info
-function viewEmployees() {
+// //Functions run by the switch case
+// //Prompts in functions to get info
+// function viewEmployees() {
 
-};
+// };
 
-function viewEmpByDepart() {
+// function viewEmpByDepart() {
 
-};
+// };
 
-function viewEmpByRole() {
+// function viewEmpByRole() {
 
-};
+// };
 
-function addEmployee() {
+// function addEmployee() {
 
-};
+// };
 
-function addEmpByDepart() {
+// function addEmpByDepart() {
 
-};
+// };
 
-function addEmpByRole() {
+// function addEmpByRole() {
 
-};
+// };
 
-function updateEmpRoles() {
+// function updateEmpRoles() {
 
-};
+// };
 
 loadMainPage();
