@@ -20,10 +20,10 @@ function loadMainPage() {
                     name: "View Employees",
                     value: "View Employees"
                 },
-                // {
-                //     name: "View Departments",
-                //     value: "View Departments"
-                // },
+                {
+                    name: "View Departments",
+                    value: "View Departments"
+                },
                 // {
                 //     name: "View Roles",
                 //     value: "View Roles"
@@ -54,8 +54,8 @@ function loadMainPage() {
             switch (answer.userChoice) {
                 case "View Employees":
                     return viewEmployees();
-                // case "View Departments":
-                //     return viewDepartments();
+                case "View Departments":
+                    return viewDepartments();
                 // case "View Roles":
                 //     return viewRoles();
                 case "Add an Employee":
@@ -92,16 +92,28 @@ function viewEmployees() {
     });
 }
 
-// function viewDepartments() {
-//Get list of choices
+function viewDepartments() {
+    const connection = mysql.createConnection({
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "root",
+        database: "employeeTracker"
+    });
 
-//Use promts to let user choose which dept they want to see
+    connection.connect(function (err) {
+        if (err) throw err;
+        console.log("connected as id " + connection.threadId + "\n");
 
-//Send the info to the db with a connection query
+    });
+    connection.query("Select * from  department", function (err, res) {
+        if (err) throw err;
+        console.log(res);
+        connection.end;
+        loadMainPage();
+    });
 
-//Show response
-
-// };
+};
 
 // function viewRoles() {
 
