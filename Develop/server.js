@@ -65,48 +65,84 @@ function loadMainPage() {
 //Use a switch case to start the function dependant on what the user chose
 // switch(choices) {
 //     case "View Employees":
-//         return "viewEmployees";}
-//     case "View Employees by Department":
-//         return viewEmpByDepart();
-//     case "View Employees by Role":
-//         return viewEmpByRole();
+//         return "viewEmployees";
+//     case "View Departments":
+//         return viewDepartments();
+//     case "View Roles":
+//         return viewRoles();
 //     case "Add an Employee":
 //         return addEmployee();
-//     case "Add an Employee by Department":
-//         return addEmpByDepart();
-//     case "Add an Employee by Role":
-//         return addEmpByRole();
+//     case "Add a Department":
+//         return addDepartment();
+//     case "Add a Role":
+//         return addRole();
 //     case "Update Employee Roles":
 //         return updateEmpRoles();
 // };
 
-// //Functions run by the switch case
-// //Prompts in functions to get info
 // function viewEmployees() {
+// let employees = connection.query(
+  
+// )
+
+//Show response
 
 // };
 
-// function viewEmpByDepart() {
+// function viewDepartments() {
+//Get list of choices
+
+//Use promts to let user choose which dept they want to see
+
+//Send the info to the db with a connection query
+
+//Show response
 
 // };
 
-// function viewEmpByRole() {
+// function viewRoles() {
+
+//Send the info to the db with a connection query getting role info
+
+//Show response
 
 // };
 
 // function addEmployee() {
+//Create prompts asking for first and last names, role id, and manager id --number of the employee's manager
+
+//Send the info to the db with a connection query
+
+//Show response
 
 // };
 
-// function addEmpByDepart() {
+// function addDepartment() {
+// Prompt user for department info
+
+//Send the info to the db with a connection query
+
+//Show response
 
 // };
 
-// function addEmpByRole() {
+// function addRole() {
+//Prompts to get the role info --role name, salery, and department id
+
+//Send the info to the db with a connection query
+
+//Show response
 
 // };
 
 // function updateEmpRoles() {
+//Figure out which employee they want to update
+
+//Give the user all of the options to choose from 
+
+//Send the info to the db with a connection query
+
+//Show response
 
 // };
 
