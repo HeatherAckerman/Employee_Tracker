@@ -1,47 +1,37 @@
 //Require inquirer and sql
-const { prompt } = require("inquirer");
+const inquirer = require("inquirer");
 const mysql = require("mysql");
 
-//Create a connection
-const connection = mysql.createConnection({
-    host: "Connection",
-    user: "root",
-    password: "root",
-    database: "employeeTracker"
-});
-
-connection.connect(function (err) {
-    if (err) throw err;
-    console.log("connected as id " + connection.threadId + "\n");
-});
-
+// newConnection()
 //Create 'home' page where the user can make a choice between
 //View departments, roles, employees
 //Adding departments, roles, employees
 //Update employee rolls
-async function loadMainPage() {
-    let userChoice = await prompt([
+function loadMainPage() {
+
+
+    inquirer.prompt([
         {
             type: "list",
             name: "userChoice",
             message: "What would you like to do?",
             choices: [
-                {
-                    name: "View Employees",
-                    value: "View Employees"
-                },
-                {
-                    name: "View Departments",
-                    value: "View Departments"
-                },
-                {
-                    name: "View Roles",
-                    value: "View Roles"
-                },
-                {
-                    name: "Add an Employee",
-                    value: "Add an Employee"
-                },
+                // {
+                //     name: "View Employees",
+                //     value: "View Employees"
+                // },
+                // {
+                //     name: "View Departments",
+                //     value: "View Departments"
+                // },
+                // {
+                //     name: "View Roles",
+                //     value: "View Roles"
+                // },
+                // {
+                //     name: "Add an Employee",
+                //     value: "Add an Employee"
+                // },
                 {
                     name: "Add a Department",
                     value: "Add a Department"
@@ -49,37 +39,36 @@ async function loadMainPage() {
                 {
                     name: "Add a Role",
                     value: "Add a Role"
-                },
-                {
-                    name: "Update Employee Roles",
-                    value: "Update Employee Roles"
                 }
+                // ,
+                // {
+                //     name: "Update Employee Roles",
+                //     value: "Update Employee Roles"
+                // }
             ]
-
         }
-
     ])
-    
-    //Use a switch case to start the function dependant on what the user chose
-    switch (userChoice) {
-        case "View Employees":
-            return viewEmployees();
-        case "View Departments":
-            return viewDepartments();
-        case "View Roles":
-            return viewRoles();
-        case "Add an Employee":
-            return addEmployee();
-        case "Add a Department":
-            return addDepartment();
-        case "Add a Role":
-            return addRole();
-        case "Update Employee Roles":
-            return updateEmpRoles();
-    };
+        .then(function (answer) {
 
+            //Use a switch case to start the function dependant on what the user chose
+            switch (answer.userChoice) {
+                // case "View Employees":
+                //     return viewEmployees();
+                // case "View Departments":
+                //     return viewDepartments();
+                // case "View Roles":
+                //     return viewRoles();
+                // case "Add an Employee":
+                //     return addEmployee();
+                case "Add a Department":
+                    return addDepartment();
+                case "Add a Role":
+                    return addRole();
+                // case "Update Employee Roles":
+                //     return updateEmpRoles();
+            };
+        })
 }
-
 
 // function viewEmployees() {
 // let employees = connection.query(
@@ -127,30 +116,78 @@ async function loadMainPage() {
 
 // };
 
-async function addDepartment() {
+function addDepartment() {
     // Prompt user for department info
-    let department = await prompt([
+    inquirer.prompt([
         {
+            type: "input",
             name: "departmentName",
             message: "What is the name of the Department you would like to add?"
         }
-    ])
-    // Send the info to the db with a connection query
-    connection.query("INSERT INTO department SET ?", department);
-    // Show response
-    console.log(department + "was added to Departments.")
+    ]).then(function (departmentName) {
 
-    loadMainPage()
-};
 
-// function addRole() {
-//Prompts to get the role info --role name, salery, and department id
+        const connection = mysql.createConnection({
+            host: "localhost",
+            port: 3306,
+            user: "root",
+            password: "root",
+            database: "employeeTracker"
+        });
 
-//Send the info to the db with a connection query
+        connection.connect(function (err) {
+            if (err) throw err;
+            console.log("connected as id " + connection.threadId + "\n");
 
-//Show response
+        });
 
-// };
+        connection.query("INSERT INTO department SET ?", departmentName);
+        // Show response
+        console.log(departmentName, "was added to Departments.")
+        connection.end();
+        loadMainPage();
+    })
+}
+
+function addRole() {
+    //Prompts to get the role info --role name, salery, and department id
+    inquirer.prompt([
+        {
+            name: "roleTitle",
+            message: "What is the name of the role you would like to add?"
+        },
+        {
+            name: "salary",
+            message: "What salary does this role receive?"
+        },
+        {
+            name: "departmentId",
+            message: "What department is this role a part of?"
+        }
+    ]).then(function (roleTitle) {
+
+
+        const connection = mysql.createConnection({
+            host: "localhost",
+            port: 3306,
+            user: "root",
+            password: "root",
+            database: "employeeTracker"
+        });
+
+        connection.connect(function (err) {
+            if (err) throw err;
+            console.log("connected as id " + connection.threadId + "\n");
+
+        });
+
+        connection.query("INSERT INTO role SET ?", roleTitle);
+        //Show response
+        console.log(roleTitle, "was added to Departments.")
+        connection.end();
+        loadMainPage();
+    });
+}
 
 // function updateEmpRoles() {
 //Figure out which employee they want to update

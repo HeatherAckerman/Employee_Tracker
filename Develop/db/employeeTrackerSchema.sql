@@ -8,7 +8,7 @@ create table department(
 
 create table role(
     id int auto_increment primary key,
-    title varchar(30) not null,
+    roleTitle varchar(30) not null,
     salary decimal (4,2) not null,
     departmentId int not null
 )
