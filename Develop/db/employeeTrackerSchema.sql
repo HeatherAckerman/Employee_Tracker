@@ -17,5 +17,6 @@ create table employee(
     id int auto_increment primary key,
     firstName varchar(30) not null,
     lastName varchar(30) not null,
-    roleId int
+    roleId int,
+    managerId int
 );

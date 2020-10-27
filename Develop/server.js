@@ -16,10 +16,10 @@ function loadMainPage() {
             name: "userChoice",
             message: "What would you like to do?",
             choices: [
-                // {
-                //     name: "View Employees",
-                //     value: "View Employees"
-                // },
+                {
+                    name: "View Employees",
+                    value: "View Employees"
+                },
                 // {
                 //     name: "View Departments",
                 //     value: "View Departments"
@@ -52,8 +52,8 @@ function loadMainPage() {
 
             //Use a switch case to start the function dependant on what the user chose
             switch (answer.userChoice) {
-                // case "View Employees":
-                //     return viewEmployees();
+                case "View Employees":
+                    return viewEmployees();
                 // case "View Departments":
                 //     return viewDepartments();
                 // case "View Roles":
@@ -70,14 +70,27 @@ function loadMainPage() {
         })
 }
 
-// function viewEmployees() {
-// let employees = connection.query(
+function viewEmployees() {
+    const connection = mysql.createConnection({
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "root",
+        database: "employeeTracker"
+    });
 
-// )
+    connection.connect(function (err) {
+        if (err) throw err;
+        console.log("connected as id " + connection.threadId + "\n");
 
-//Show response
-
-// };
+    });
+    connection.query("Select * from  employee", function (err, res) {
+        if (err) throw err;
+        console.log(res);
+        connection.end;
+        loadMainPage();
+    });
+}
 
 // function viewDepartments() {
 //Get list of choices
@@ -129,14 +142,14 @@ function addEmployee() {
                 }
             ]
         }
-     
+
     ]).then(function (firstName, lastName, roleId, managerId) {
 
         let newEmployee = [
-            {firstName: firstName},
-            {lastName: lastName},
-            {roleId: roleId}
-            {managerId: managerId}
+            { firstName: firstName },
+            { lastName: lastName },
+            { roleId: roleId },
+            { managerId: managerId }
         ]
         const connection = mysql.createConnection({
             host: "localhost",
@@ -209,13 +222,13 @@ function addRole() {
             name: "departmentId",
             message: "What department is this role a part of?"
         }
-     
+
     ]).then(function (roleTitle, salary, departmentId) {
 
         let newRole = [
-            {roleTitle: roleTitle},
-            {salary: salary},
-            {departmentId: departmentId}
+            { roleTitle: roleTitle },
+            { salary: salary },
+            { departmentId: departmentId }
         ]
         const connection = mysql.createConnection({
             host: "localhost",
