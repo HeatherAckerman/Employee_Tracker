@@ -28,10 +28,10 @@ function loadMainPage() {
                 //     name: "View Roles",
                 //     value: "View Roles"
                 // },
-                // {
-                //     name: "Add an Employee",
-                //     value: "Add an Employee"
-                // },
+                {
+                    name: "Add an Employee",
+                    value: "Add an Employee"
+                },
                 {
                     name: "Add a Department",
                     value: "Add a Department"
@@ -58,8 +58,8 @@ function loadMainPage() {
                 //     return viewDepartments();
                 // case "View Roles":
                 //     return viewRoles();
-                // case "Add an Employee":
-                //     return addEmployee();
+                case "Add an Employee":
+                    return addEmployee();
                 case "Add a Department":
                     return addDepartment();
                 case "Add a Role":
@@ -98,23 +98,68 @@ function loadMainPage() {
 
 // };
 
-// async function addEmployee() {
-//     //Create prompts asking for first and last names, role id, and manager id --number of the employee's manager
-//     let employee = await prompt([
-//         {
-//             name: firstName,
-//             message: "What is the Employee's first name?"
-//         },
-//         {
-//             name: lastName,
-//             message: "What is the Employee's last name?"
-//         }
-//     ])
-//     //Send the info to the db with a connection query
+function addEmployee() {
+    //Create prompts asking for first and last names, role id, and manager id --number of the employee's manager
+    inquirer.prompt([
+        {
+            name: "firstName",
+            message: "What is the employee's first name?"
+        },
+        {
+            name: "lastName",
+            message: "What is the employee's last name?"
+        },
+        {
+            type: "list",
+            name: "roleId",
+            message: "What is the employee's role?",
+            choices: [
+                {
+                    //ADD LIST OF POSSIBLE ROLES FROM DB
+                }
+            ]
+        },
+        {
+            type: "list",
+            name: "managerId",
+            message: "Who is the employee's direct manager?",
+            choices: [
+                {
+                    //ADD LIST OF POSSIBLE managers FROM DB
+                }
+            ]
+        }
+     
+    ]).then(function (firstName, lastName, roleId, managerId) {
 
-//     //Show response
+        let newEmployee = [
+            {firstName: firstName},
+            {lastName: lastName},
+            {roleId: roleId}
+            {managerId: managerId}
+        ]
+        const connection = mysql.createConnection({
+            host: "localhost",
+            port: 3306,
+            user: "root",
+            password: "root",
+            database: "employeeTracker"
+        });
 
-// };
+        connection.connect(function (err) {
+            if (err) throw err;
+            console.log("connected as id " + connection.threadId + "\n");
+
+        });
+
+        connection.query("INSERT INTO employee SET ?", newEmployee);
+        //Show response
+        console.log(newEmployee, "was added to Employees.")
+        connection.end();
+        loadMainPage();
+    });
+
+};
 
 function addDepartment() {
     // Prompt user for department info
@@ -164,9 +209,14 @@ function addRole() {
             name: "departmentId",
             message: "What department is this role a part of?"
         }
-    ]).then(function (roleTitle) {
+     
+    ]).then(function (roleTitle, salary, departmentId) {
 
-
+        let newRole = [
+            {roleTitle: roleTitle},
+            {salary: salary},
+            {departmentId: departmentId}
+        ]
         const connection = mysql.createConnection({
             host: "localhost",
             port: 3306,
@@ -181,9 +231,9 @@ function addRole() {
 
         });
 
-        connection.query("INSERT INTO role SET ?", roleTitle);
+        connection.query("INSERT INTO role SET ?", newRole);
         //Show response
-        console.log(roleTitle, "was added to Departments.")
+        console.log(newRole, "was added to Departments.")
         connection.end();
         loadMainPage();
     });
