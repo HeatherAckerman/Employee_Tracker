@@ -24,10 +24,10 @@ function loadMainPage() {
                     name: "View Departments",
                     value: "View Departments"
                 },
-                // {
-                //     name: "View Roles",
-                //     value: "View Roles"
-                // },
+                {
+                    name: "View Roles",
+                    value: "View Roles"
+                },
                 {
                     name: "Add an Employee",
                     value: "Add an Employee"
@@ -56,8 +56,8 @@ function loadMainPage() {
                     return viewEmployees();
                 case "View Departments":
                     return viewDepartments();
-                // case "View Roles":
-                //     return viewRoles();
+                case "View Roles":
+                    return viewRoles();
                 case "Add an Employee":
                     return addEmployee();
                 case "Add a Department":
@@ -115,13 +115,28 @@ function viewDepartments() {
 
 };
 
-// function viewRoles() {
+function viewRoles() {
+    const connection = mysql.createConnection({
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "root",
+        database: "employeeTracker"
+    });
 
-//Send the info to the db with a connection query getting role info
+    connection.connect(function (err) {
+        if (err) throw err;
+        console.log("connected as id " + connection.threadId + "\n");
 
-//Show response
+    });
+    connection.query("Select * from  role", function (err, res) {
+        if (err) throw err;
+        console.log(res);
+        connection.end;
+        loadMainPage();
+    });
 
-// };
+};
 
 function addEmployee() {
     //Create prompts asking for first and last names, role id, and manager id --number of the employee's manager
