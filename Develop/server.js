@@ -1,14 +1,7 @@
-//Require inquirer and sql
 const inquirer = require("inquirer");
 const mysql = require("mysql");
 
-// newConnection()
-//Create 'home' page where the user can make a choice between
-//View departments, roles, employees
-//Adding departments, roles, employees
-//Update employee rolls
 function loadMainPage() {
-
 
     inquirer.prompt([
         {
@@ -40,17 +33,11 @@ function loadMainPage() {
                     name: "Add a Role",
                     value: "Add a Role"
                 }
-                // ,
-                // {
-                //     name: "Update Employee Roles",
-                //     value: "Update Employee Roles"
-                // }
             ]
         }
     ])
         .then(function (answer) {
 
-            //Use a switch case to start the function dependant on what the user chose
             switch (answer.userChoice) {
                 case "View Employees":
                     return viewEmployees();
@@ -64,8 +51,6 @@ function loadMainPage() {
                     return addDepartment();
                 case "Add a Role":
                     return addRole();
-                // case "Update Employee Roles":
-                //     return updateEmpRoles();
             };
         })
 }
@@ -139,7 +124,19 @@ function viewRoles() {
 };
 
 function addEmployee() {
-    //Create prompts asking for first and last names, role id, and manager id --number of the employee's manager
+    const connection = mysql.createConnection({
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "root",
+        database: "employeeTracker"
+    });
+    connection.connect(function (err) {
+        if (err) throw err;
+        console.log("connected as id " + connection.threadId + "\n");
+
+    });
+
     inquirer.prompt([
         {
             name: "firstName",
@@ -150,24 +147,13 @@ function addEmployee() {
             message: "What is the employee's last name?"
         },
         {
-            type: "list",
             name: "roleId",
-            message: "What is the employee's role?",
-            choices: [
-                {
-                    //ADD LIST OF POSSIBLE ROLES FROM DB
-                }
-            ]
+            message: "What is the employee's role id?"
         },
         {
-            type: "list",
             name: "managerId",
-            message: "Who is the employee's direct manager?",
-            choices: [
-                {
-                    //ADD LIST OF POSSIBLE managers FROM DB
-                }
-            ]
+            message: "What is the employee's manager's id?",
+
         }
 
     ]).then(function (firstName, lastName, roleId, managerId) {
@@ -193,7 +179,6 @@ function addEmployee() {
         });
 
         connection.query("INSERT INTO employee SET ?", newEmployee);
-        //Show response
         console.log(newEmployee, "was added to Employees.")
         connection.end();
         loadMainPage();
@@ -202,40 +187,49 @@ function addEmployee() {
 };
 
 function addDepartment() {
-    // Prompt user for department info
     inquirer.prompt([
+        {
+            type: "input",
+            name: "id",
+            message: "What numerical id would you like to assign the Department you are creating?"
+        },
         {
             type: "input",
             name: "departmentName",
             message: "What is the name of the Department you would like to add?"
         }
-    ]).then(function (departmentName) {
+    ])
+        .then(function (id, departmentName) {
+            const connection = mysql.createConnection({
+                host: "localhost",
+                port: 3306,
+                user: "root",
+                password: "root",
+                database: "employeeTracker"
+            });
 
+            connection.connect(function (err) {
+                if (err) throw err;
+                console.log("connected as id " + connection.threadId + "\n");
 
-        const connection = mysql.createConnection({
-            host: "localhost",
-            port: 3306,
-            user: "root",
-            password: "root",
-            database: "employeeTracker"
-        });
+            });
+            let newDepartment = [
+                {
+                    id: id
+                },
+                {
+                    departmentName: departmentName
+                }
+            ]
 
-        connection.connect(function (err) {
-            if (err) throw err;
-            console.log("connected as id " + connection.threadId + "\n");
-
-        });
-
-        connection.query("INSERT INTO department SET ?", departmentName);
-        // Show response
-        console.log(departmentName, "was added to Departments.")
-        connection.end();
-        loadMainPage();
-    })
+            connection.query("INSERT INTO department SET ?", newDepartment);
+            console.log(newDepartment, "was added to Departments.")
+            connection.end();
+            loadMainPage();
+        })
 }
 
 function addRole() {
-    //Prompts to get the role info --role name, salery, and department id
     inquirer.prompt([
         {
             name: "roleTitle",
@@ -247,7 +241,7 @@ function addRole() {
         },
         {
             name: "departmentId",
-            message: "What department is this role a part of?"
+            message: "What is the id of the department this role is a part of?"
         }
 
     ]).then(function (roleTitle, salary, departmentId) {
@@ -272,22 +266,10 @@ function addRole() {
         });
 
         connection.query("INSERT INTO role SET ?", newRole);
-        //Show response
         console.log(newRole, "was added to Departments.")
         connection.end();
         loadMainPage();
     });
 }
-
-// function updateEmpRoles() {
-//Figure out which employee they want to update
-
-//Give the user all of the options to choose from 
-
-//Send the info to the db with a connection query
-
-//Show response
-
-// };
 
 loadMainPage();
